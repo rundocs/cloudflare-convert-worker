@@ -1,0 +1,17 @@
+# Dependencies
+/node_modules
+
+# Generated files
+/.wrangler
+/worker-configuration.d.ts
+
+# Editor files
+/.trae
+
+# Misc
+.env
+.env.local
+*.log
+*.tsbuildinfo
+.DS_Store
+*Zone.Identifier

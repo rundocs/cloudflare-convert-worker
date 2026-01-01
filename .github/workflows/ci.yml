@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+      - run: npm install -g pnpm
+      - run: pnpm i
+      - run: pnpm wrangler types
+      - run: pnpm tsc --noEmit
+      - run: pnpm rstest
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.PUBLIC_ACTION_WRANGLER_TOKEN }}
+          accountId: ${{ secrets.PUBLIC_ACTION_WRANGLER_ACCOUNT }}
