@@ -1,12 +1,9 @@
 .PHONY: all
-all: install build
+all: install test
 
 .PHONY: install
 install:
 	@pnpm i
-
-.PHONY: build
-build:
 	@pnpm wrangler types
 
 .PHONY: test
