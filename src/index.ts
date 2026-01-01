@@ -2,11 +2,14 @@ import { getTargetUrl, getUrlRuleMatchers } from "./utils/urlConverter";
 
 const cachedMatchers = getUrlRuleMatchers(true);
 
-function ErrorResponse(status: number) {
-	return new Response(String(status), {
+function ErrorResponse(status: number, message: unknown) {
+	if (message instanceof Error) {
+		message = message.message;
+	}
+	return new Response(JSON.stringify({ status, message }), {
 		status,
 		headers: {
-			"Content-Type": "text/plain",
+			"Content-Type": "application/json",
 		},
 	});
 }
@@ -14,7 +17,7 @@ async function handleRequest(request: Request) {
 	try {
 		const targetUrl = getTargetUrl(cachedMatchers, request.url);
 		if (!targetUrl) {
-			return ErrorResponse(403);
+			return ErrorResponse(403, "No Rule Matched for Request URL");
 		}
 		const targetResponse = await fetch(targetUrl, {
 			method: request.method,
@@ -22,7 +25,7 @@ async function handleRequest(request: Request) {
 			body: request.body,
 		});
 		if (!targetResponse.ok) {
-			return ErrorResponse(targetResponse.status);
+			return ErrorResponse(targetResponse.status, "Target Server Error Response");
 		}
 		const isNoBody = [101, 204, 205, 304].includes(targetResponse.status);
 		return new Response(isNoBody ? null : targetResponse.body, {
@@ -30,7 +33,7 @@ async function handleRequest(request: Request) {
 			headers: targetResponse.headers,
 		});
 	} catch (error) {
-		return ErrorResponse(500);
+		return ErrorResponse(500, error);
 	}
 }
 
