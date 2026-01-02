@@ -1,14 +1,17 @@
 .PHONY: all
-all: install test
+all: install check test
 
 .PHONY: install
 install:
 	@pnpm i
 	@pnpm wrangler types
 
+.PHONY: check
+check:
+	@pnpm tsc --noEmit
+
 .PHONY: test
 test:
-	@pnpm tsc --noEmit
 	@pnpm rstest
 
 .PHONY: dev

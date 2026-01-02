@@ -3,6 +3,8 @@ export type UrlRuleEntries = [UrlRule, UrlRule][];
 export type UrlRuleMatchers = [RegExp, UrlRule][];
 
 export const urlRules: Record<UrlRule, UrlRule> = {
+	// test
+	// "http://localhost:\\d+/**": "https://rundocs.github.io/**",
 	// github
 	"https://<user>.node.icu/**": "https://<user>.github.io/**",
 	"https://<user>.<repo>.node.icu/**": "https://<user>.github.io/<repo>/**",
