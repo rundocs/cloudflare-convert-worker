@@ -27,7 +27,7 @@ const exportedHandler: ExportedHandler<Env> = {
 				return autoResponse({
 					status: targetResponse.status,
 					headers: targetResponse.headers,
-					body: html.replace("</body>", `<script type="module" src="https://node.icu/nodekit.js"></script></body>`),
+					body: html.replace("</head>", `<script type="module" src="https://node.icu/nodekit.js"></script></head>`),
 				});
 			}
 			return targetResponse;
