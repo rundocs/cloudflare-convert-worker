@@ -20,7 +20,7 @@ const exportedHandler: ExportedHandler<Env> = {
 				const html = await targetResponse.text();
 				// override
 				if (targetResponse.status === 404) {
-					if (/<title>Page not found &middot; GitHub Pages<\/title>/.test(html)) {
+					if (/<title>(Site|Page) not found &middot; GitHub Pages<\/title>/.test(html)) {
 						return errorResponse(404);
 					}
 				}
