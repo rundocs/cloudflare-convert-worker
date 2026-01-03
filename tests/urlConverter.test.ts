@@ -29,4 +29,4 @@ function debug(url: string, target: string | boolean) {
 
 debug("https://node.icu", false);
 debug("https://user.node.icu", "https://user.github.io");
-debug("https://user.repo.node.icu", "https://user.github.io/repo");
+debug("https://repo.user.node.icu", "https://user.github.io/repo");
