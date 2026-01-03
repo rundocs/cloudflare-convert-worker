@@ -17,7 +17,9 @@ export function errorResponse(status: number, error?: unknown) {
         "Content-Type": "text/plain",
     });
     if (error instanceof Error) {
-        headers.set("Node-Error-Detail", error.message);
+        const message = error.message;
+        console.log(message);
+        headers.set("Node-Error-Detail", message);
     }
     return autoResponse({
         status,
