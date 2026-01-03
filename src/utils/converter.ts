@@ -1,7 +1,8 @@
-import type { UrlRule, UrlRuleMatchers } from "@utils/urlRules";
-import { urlRuleEntries } from "@utils/urlRules";
+import { type URLRule, urlRules } from "../rules.dynamic";
 
-export function getUrlRuleRegExp(urlRule: UrlRule): RegExp {
+type URLRuleMatchers = [RegExp, URLRule][];
+
+export function getURLRuleRegExp(urlRule: URLRule): RegExp {
 	const urlRulePattern = urlRule
 		// escape
 		.replace(/\./g, "\\.")
@@ -13,7 +14,7 @@ export function getUrlRuleRegExp(urlRule: UrlRule): RegExp {
 		.replace(/\/\*{2}/g, "(?<greedy>\/?.*)");
 	return new RegExp("^" + urlRulePattern + "$");
 }
-export function getTargetUrl(urlRuleMatchers: UrlRuleMatchers, url: string): string | false {
+export function getTargetUrl(urlRuleMatchers: URLRuleMatchers, url: string): string | false {
 	for (const [sourceRegExp, targetRule] of urlRuleMatchers) {
 		const matched = url.match(sourceRegExp);
 		if (matched && matched.groups) {
@@ -27,10 +28,10 @@ export function getTargetUrl(urlRuleMatchers: UrlRuleMatchers, url: string): str
 	}
 	return false;
 }
-export function getUrlRuleMatchers(matchSourceRule: boolean): UrlRuleMatchers {
+export function getUrlRuleMatchers(matchSourceRule: boolean): URLRuleMatchers {
 	if (matchSourceRule) {
-		return urlRuleEntries.map(([sourceRule, targetRule]) => [getUrlRuleRegExp(sourceRule), targetRule]);
+		return urlRules.map(([sourceRule, targetRule]) => [getURLRuleRegExp(sourceRule), targetRule]);
 	} else {
-		return urlRuleEntries.map(([sourceRule, targetRule]) => [getUrlRuleRegExp(targetRule), sourceRule]);
+		return urlRules.map(([sourceRule, targetRule]) => [getURLRuleRegExp(targetRule), sourceRule]);
 	}
 }

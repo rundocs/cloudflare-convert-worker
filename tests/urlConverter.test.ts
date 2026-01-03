@@ -1,7 +1,7 @@
 import { expect, test } from "@rstest/core";
-import { getTargetUrl, getUrlRuleMatchers } from "@utils/urlConverter";
+import { getTargetUrl, getUrlRuleMatchers } from "@utils/converter";
 
-const cachedMatchers = getUrlRuleMatchers(true);
+const sourceMatchers = getUrlRuleMatchers(true);
 
 function debug(url: string, target: string | boolean) {
 	test(url, () => {
@@ -19,10 +19,10 @@ function debug(url: string, target: string | boolean) {
 				"/path/to/file.html?query=true#hash",
 			];
 			urls.forEach((path) => {
-				expect(getTargetUrl(cachedMatchers, url + path)).toBe(target + path);
+				expect(getTargetUrl(sourceMatchers, url + path)).toBe(target + path);
 			});
 		} else {
-			expect(getTargetUrl(cachedMatchers, url)).toBe(target);
+			expect(getTargetUrl(sourceMatchers, url)).toBe(target);
 		}
 	});
 }
