@@ -20,11 +20,7 @@
     }
   },
   "include": [
-    "**/*.ts",
-    "**/*.d.ts"
-  ],
-  "exclude": [
-    "test",
-    "node_modules"
+    "src",
+    "worker-configuration.d.ts"
   ]
 }
